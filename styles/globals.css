@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Smooth scroll */
+html { scroll-behavior: smooth; }
+
+/* 유지한 효과 */
+.animate-fade-in { animation: fadeIn 1.1s cubic-bezier(.4,0,.2,1) both; }
+@keyframes fadeIn { from {opacity:0;transform:translateY(60px);} to {opacity:1;transform:translateY(0);} }
+.glassmorph-card { backdrop-filter: blur(8px); background: rgba(255,255,255,0.91);}
+
+/* header border */
+.header-border { border-bottom: 1px solid #e5e7eb; }
+
+/* full-screen drawer body lock */
+body.modal-open { overflow: hidden; }
+

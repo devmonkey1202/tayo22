@@ -1,0 +1,1 @@
+mysql://tayodrive:NEW_PASSWORD@db.tayodrive.gabia.io:3306/dbtayodrive

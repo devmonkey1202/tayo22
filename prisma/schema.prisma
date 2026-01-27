@@ -1,0 +1,91 @@
+// prisma/schema.prisma
+
+// ─────────────────────────────
+//  DB 연결 설정 (Cloud SQL / 로컬 공통)
+// ─────────────────────────────
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")   // .env 파일에서 DATABASE_URL 읽음
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// ─────────────────────────────
+//  Review (후기)
+// ─────────────────────────────
+model Review {
+  id        Int      @id @default(autoincrement())
+  title     String
+  body      String
+  author    String?
+  email     String?
+  image     String?
+  rating    Int      @default(5)
+  views     Int      @default(0)   // 👈 조회수 컬럼 추가
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([createdAt], map: "idx_review_created_at")
+}
+
+// ─────────────────────────────
+//  Reservation (상담 예약)
+// ─────────────────────────────
+model Reservation {
+  id        Int      @id @default(autoincrement())
+  name      String
+  phone     String
+  gender    String?
+  carType   String?
+  region    String?
+  memo      String?
+  status    String   @default("상담신청중")
+  createdAt DateTime @default(now())
+}
+
+
+// ─────────────────────────────
+//  FAQ (자주 묻는 질문)
+// ─────────────────────────────
+model Faq {
+  id   Int    @id @default(autoincrement())
+  icon String
+  q    String
+  a    String
+}
+
+// ─────────────────────────────
+//  Setting (사이트 설정)
+// ─────────────────────────────
+model Setting {
+  id        Int    @id @default(autoincrement())
+  kakaoUrl  String
+  metaTitle String
+  metaDesc  String
+}
+
+// ─────────────────────────────
+//  Recipient (SMS 수신자)
+// ─────────────────────────────
+model Recipient {
+  id        Int      @id @default(autoincrement())
+  name      String?
+  label     String?
+  phone     String?   @unique
+  createdAt DateTime @default(now())
+}
+
+model BoardPost {
+  id          Int      @id @default(autoincrement())
+  title       String
+  slug        String   @unique
+  content     String
+  isPublished Boolean  @default(false)
+  isPinned    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([isPublished, isPinned, createdAt])
+}
